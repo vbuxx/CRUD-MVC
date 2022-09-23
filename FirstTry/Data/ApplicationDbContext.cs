@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using FirstTry.Models;
 
 namespace FirstTry.Data
 {
@@ -12,5 +13,6 @@ namespace FirstTry.Data
             : base(options)
         {
         }
+        public DbSet<FirstTry.Models.Product> Product { get; set; }
     }
 }

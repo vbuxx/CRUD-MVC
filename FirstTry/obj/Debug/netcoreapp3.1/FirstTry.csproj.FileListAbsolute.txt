@@ -166,6 +166,6 @@ C:\Users\prama\Desktop\.NET-MCC\S2D1 - MVC .net core\FirstTry\FirstTry\bin\Debug
 C:\Users\prama\Desktop\.NET-MCC\S2D1 - MVC .net core\FirstTry\FirstTry\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\prama\Desktop\.NET-MCC\S2D1 - MVC .net core\FirstTry\FirstTry\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\prama\Desktop\.NET-MCC\S2D1 - MVC .net core\FirstTry\FirstTry\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\prama\Desktop\.NET-MCC\S2D1 - MVC .net core\FirstTry\FirstTry\obj\Debug\netcoreapp3.1\Razor\Views\Product\Index.cshtml.g.cs
-C:\Users\prama\Desktop\.NET-MCC\S2D1 - MVC .net core\FirstTry\firsttry\obj\Debug\netcoreapp3.1\Razor\Views\Product\Input.cshtml.g.cs
+C:\Users\prama\Desktop\.NET-MCC\S2D1 - MVC .net core\FirstTry\firsttry\obj\Debug\netcoreapp3.1\Razor\Views\Product\Index.cshtml.g.cs
+C:\Users\prama\Desktop\.NET-MCC\S2D1 - MVC .net core\FirstTry\firsttry\obj\Debug\netcoreapp3.1\Razor\Views\Product\Create.cshtml.g.cs
 C:\Users\prama\Desktop\.NET-MCC\S2D1 - MVC .net core\FirstTry\firsttry\obj\Debug\netcoreapp3.1\Razor\Views\Product\Edit.cshtml.g.cs

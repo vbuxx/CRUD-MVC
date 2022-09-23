@@ -10,139 +10,84 @@ namespace FirstTry.Controllers
 {
     public class ProductController : Controller
     {
-        SqlConnection sqlConnection;
 
-        string connectionString = "Data Source=DESKTOP-PQO8BSH;Initial Catalog=Tokoku;User ID=me;Password=12345678";
-
-        //Read Feature
+        //GET: Product/
         public IActionResult Index()
         {
-            string query = "SELECT * FROM Products";
+            DBHandler dbhandler = new DBHandler();
+            ModelState.Clear();
+            return View(dbhandler.GetAll());
+        }
 
-            sqlConnection = new SqlConnection(connectionString);
-            SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
-            List<Product> Products = new List<Product>();
+        //GET: Product/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
 
+        //POST: Product/Create
+        [HttpPost]
+        public IActionResult Create(Product product)
+        {
             try
             {
-                sqlConnection.Open();
-                using (SqlDataReader sqlDataReader = sqlCommand.ExecuteReader())
+                if (ModelState.IsValid)
                 {
-                    if (sqlDataReader.HasRows)
+                    DBHandler dbhandler = new DBHandler();
+                    if (dbhandler.Insert(product))
                     {
-                        while (sqlDataReader.Read())
-                        {
-                            Product product = new Product();
-                            product.Id = Convert.ToInt32(sqlDataReader[0]);
-                            product.Name = sqlDataReader[1].ToString();
-                            product.Stock = Convert.ToInt32(sqlDataReader[2]);
-                            product.Price = Convert.ToInt32(sqlDataReader[3]);
-                            Products.Add(product);
-                        }
-                        sqlDataReader.Close();
+                        ViewBag.Message = "Product Berhasil Ditambahkan";
+                        ModelState.Clear();
                     }
-                    else
-                    {
-                        Console.WriteLine("No Data Rows");
-                    }
-                    sqlDataReader.Close();
                 }
-                sqlConnection.Close();
+                return View();
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine(ex.InnerException);
+                return View();
             }
-
-            return View(Products);
         }
 
-        //Create Feature
-        //a. POST
-        public IActionResult Input(Product product)
+        // GET: Product/Edit/
+        public ActionResult Edit(int id)
         {
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                sqlConnection.Open();
-                SqlTransaction sqlTransaction = sqlConnection.BeginTransaction();
-
-                SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                sqlCommand.Transaction = sqlTransaction;
-
-                SqlParameter name = new SqlParameter("@name", product.Name);
-                sqlCommand.Parameters.Add(name);
-
-                SqlParameter stock = new SqlParameter("@stock", product.Stock);
-                sqlCommand.Parameters.Add(stock);
-
-                SqlParameter price = new SqlParameter("@price", product.Price);
-                sqlCommand.Parameters.Add(price);
-
-                try
-                {
-                    sqlCommand.CommandText = "INSERT INTO Products " +
-                        " VALUES (@name,@stock,@price)";
-                    sqlCommand.ExecuteNonQuery();
-                    sqlTransaction.Commit();
-                    Console.WriteLine("-------Input Berhasil-------");
-                    sqlConnection.Close();
-
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.InnerException);
-                    Console.WriteLine("-------Input Gagal-------");
-                }
-            }
-
-            return View("Berhasil");
+            DBHandler dbhandler = new DBHandler();
+            return View(dbhandler.GetAll().Find(item => item.Id == id));
         }
 
-
-        // GET: Product/Edit/id
-        public IActionResult Edit(Product product)
+        // POST: Product/Edit/
+        [HttpPost]
+        public ActionResult Edit(int id, Product product)
         {
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            try
             {
-                sqlConnection.Open();
-                SqlTransaction sqlTransaction = sqlConnection.BeginTransaction();
-
-                SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                sqlCommand.Transaction = sqlTransaction;
-
-                SqlParameter id = new SqlParameter("@id", product.Id);
-                sqlCommand.Parameters.Add(id);
-
-                SqlParameter name = new SqlParameter("@name", product.Name);
-                sqlCommand.Parameters.Add(name);
-
-                SqlParameter stock = new SqlParameter("@stock", product.Stock);
-                sqlCommand.Parameters.Add(stock);
-
-                SqlParameter price = new SqlParameter("@price", product.Price);
-                sqlCommand.Parameters.Add(price);
-
-                try
-                {
-                    sqlCommand.CommandText = "UPDATE Products " +
-                        "SET Name = @name, Stock = @stock, Price = @price " + " WHERE Id = @id; ";
-                    sqlCommand.ExecuteNonQuery();
-                    sqlTransaction.Commit();
-                    sqlConnection.Close();
-                    Console.WriteLine("-------Update Berhasil-------");
-                   
-
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.InnerException);
-                }
-
+                DBHandler dbhandler = new DBHandler();
+                dbhandler.Update(product);
+                return RedirectToAction("Index");
             }
-            return View();
-
+            catch
+            {
+                return View();
+            }
         }
+
+        // GET: Product/Delete/
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                DBHandler dbhandler = new DBHandler();
+                if (dbhandler.Delete(id))
+                {
+                    ViewBag.AlertMsg = "Berhasil Dihapus";
+                }
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
     }
 }
